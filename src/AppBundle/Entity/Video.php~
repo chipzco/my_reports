@@ -1,0 +1,68 @@
+<?php
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+
+/** Video
+*
+* @ORM\Table(name="video")
+* @ORM\Entity(repositoryClass="AppBundle\Repository\VideoRepository")
+*/
+class Video
+{	
+	/**
+	 
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
+	
+	/**
+	 
+	 *
+	 * @ORM\Column(type="string", length=255)
+	 */
+	private $filename;
+	
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="string", length=255)
+	 */
+	private $subjectname;
+	
+	/**	 
+	 * @ORM\Column(type="smallint")	 
+	 */
+	private $patientact;
+	
+	
+	
+	/**
+	 * @ORM\Column(type="integer")
+	 */
+	private $videoid;
+	
+	
+	/**
+	 * @ORM\ManyToOne(targetEntity="Language")
+	 * @ORM\JoinColumn(name="language_id", referencedColumnName="id")
+	 */
+	private $language;
+	
+	
+	/**
+	 * Many Users have Many Groups.
+	 * @ORM\ManyToMany(targetEntity="Language")
+	 * @ORM\JoinTable(name="video_transcripts",
+	 *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
+	 *      inverseJoinColumns={@ORM\JoinColumn(name="language_id", referencedColumnName="id")}
+	 *      )
+	 */
+	private $transcripts;
+	public function __construct() {
+		$this->$transcripts = new \Doctrine\Common\Collections\ArrayCollection();
+	}
+	
+}
