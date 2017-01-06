@@ -75,7 +75,7 @@ class Video
 	 */
 	private $transcripts;
 	public function __construct() {
-		$this->$transcripts = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->transcripts = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 	
 

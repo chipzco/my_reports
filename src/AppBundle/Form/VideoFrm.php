@@ -4,6 +4,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 class VideoFrm extends AbstractType {
@@ -22,7 +23,7 @@ class VideoFrm extends AbstractType {
 			)
 			 ->add('videoid')
 			 ->add('language',EntityType::class, array(
-					'class'=>'ApppBundle:Language',
+					'class'=>'AppBundle:Language',
 			 		'choice_label'=>'lname'
 				)
 			)
