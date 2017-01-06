@@ -1,4 +1,6 @@
 /app/config/parameters.yml
+var/SymfonyRequirements.php
+web/config.php
 /build/
 /phpunit.xml
 /var/*
@@ -11,10 +13,10 @@
 !/var/sessions
 /var/sessions/*
 !var/sessions/.gitkeep
-!var/SymfonyRequirements.php
+bin/
 /vendor/
 /web/bundles/
-
+web/config.php
 .buildpath
 .project
 .settings/
