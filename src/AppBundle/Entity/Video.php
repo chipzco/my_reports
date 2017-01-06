@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /** Video
 *
@@ -20,7 +21,7 @@ class Video
 	
 	/**
 	 
-	 *
+	 * @Assert\NotBlank()
 	 * @ORM\Column(type="string", length=255)
 	 */
 	private $filename;
@@ -33,6 +34,12 @@ class Video
 	private $subjectname;
 	
 	/**	 
+	 *  * @Assert\Range(
+     *      min = 1,
+     *      max = 3,
+     *      minMessage = "You must be at least {{ limit }} patient, actor unknown",
+     *      maxMessage = "You cannot be taller than {{ limit }}cm to enter"
+     *   )   
 	 * @ORM\Column(type="smallint")	 
 	 */
 	private $patientact;
@@ -40,6 +47,12 @@ class Video
 	
 	
 	/**
+	 *   * @Assert\Range(
+     *      min = 0,
+     *      max = 9999999,
+     *      minMessage = "You must have id at least {{ limit }}",
+     *      maxMessage = "You cannot have id greater than {{ limit }} in db."
+     *      )
 	 * @ORM\Column(type="integer")
 	 */
 	private $videoid;
