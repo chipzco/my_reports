@@ -2,24 +2,28 @@
 namespace AppBundle\Model\Shapes;
 
 class RightTriangle extends GenericScalingFactorShape implements  Shape {
-	protected $diagonal;
-	
-	function __construct($length, $height) {
-		parent::__construct($length, $height);
-		$this->diagonal=sqrt($length *$height);
+	protected $diagonal;	
+	function __construct(float $base, float $height) {
+		parent::__construct($base, $height);
+		$this->setDiagonal();		
+	}	
+	protected function setDiagonal() {		
+		$this->diagonal=sqrt($this->length**2  +  $this->height**2);		
 	}
-	
-	
 	function calcArea(): float {
-		return ($this->height * $this->length)  /2;
+		return (0.5 * $this->height * $this->length) ;
 	}
 	function calcPerimeter(): float {
-		return $this->length +  $this->height +$this ->diagonal;
+		return $this->length +  $this->height + $this ->diagonal;
 	}	
 	
 	function resize(float $factor): float {		
 		parent::reCalcDim($factor);
-		$this->diagonal=sqrt($length *$height);
+		$this->setDiagonal();
 		return $this->calcArea(); //should be equal to factor * old area 
+	}	
+	
+	function getBase(): float {
+		return $this->length;  //the length is the base;
 	}
 }

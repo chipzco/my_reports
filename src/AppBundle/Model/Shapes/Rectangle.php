@@ -6,7 +6,7 @@ class Rectangle extends GenericScalingFactorShape implements  Shape {
 		return $this->height * $this->length;
 	}
 	function calcPerimeter(): float {
-		return 2 * $this->length * $this->height;
+		return 2 * ($this->length + $this->height);
 	}
 	function resize(float $factor): float {	
 		parent::reCalcDim($factor);		
