@@ -1,9 +1,7 @@
 <?php 
 namespace Tests\AppBundle\Model\Circle;
-use AppBundle\Model\Shapes\Shape;
-use AppBundle\Model\Shapes\Circle;
-use AppBundle\Model\Shapes\Rectangle;
-use AppBundle\Model\Shapes\RightTriangle;
+use AppBundle\Model\Shapes\{Shape,Circle,Rectangle,RightTriangle};
+
 
 class ShapesTest extends \PHPUnit_Framework_TestCase
 /**
@@ -96,13 +94,13 @@ class ShapesTest extends \PHPUnit_Framework_TestCase
     	$this->RevSizeScaleTests($tri,7.4,$expectedArea);
     	
     	
-    	$this->RevSizeScaleTests($tri,0.4,$expectedArea);
-    	
-    	
+    	$this->RevSizeScaleTests($tri,0.4,$expectedArea);    	
     	
     }
-    
-    
+    /*
+    public function testEqTriangle() {
+    	$eqtri=new EquilateralTriangle(10.9);
+    }*/
     
     private function round2($number) {
     	return number_format((float)$number, 2, '.', '');
