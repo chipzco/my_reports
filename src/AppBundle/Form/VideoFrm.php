@@ -5,6 +5,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
 class VideoFrm extends AbstractType {
@@ -22,11 +23,26 @@ class VideoFrm extends AbstractType {
 			   )
 			)
 			 ->add('videoid')
-			 ->add('language',EntityType::class, array(
+			 ->add('Language',EntityType::class, array(
 					'class'=>'AppBundle:Language',
-			 		'choice_label'=>'lname'
+			 		'choice_label'=>'lname'	
+			 		
 				)
 			)
+			
+			->add('transcripts',CollectionType::class, array(
+					'entry_type'=>EntityType::class,	
+					'entry_options'=>array(
+						'class'=>'AppBundle:Language',
+						'choice_label'=>'lname'
+					),
+					'allow_add'=>true,
+					'allow_delete'=>true,
+					'prototype'=>false
+				) 
+			)
+			
+			
 			->add('save', SubmitType::class);		
 	}
 }
