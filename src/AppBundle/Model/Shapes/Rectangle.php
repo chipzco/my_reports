@@ -1,15 +1,9 @@
 <?php
 namespace AppBundle\Model\Shapes;
 
-class Rectangle extends GenericScalingFactorShape implements  Shape {
-	function calcArea(): float {
-		return $this->height * $this->length;
+class Rectangle extends Parall {
+	function __construct($length, $height) {
+		$radangle=M_PI /180 * 90;  //a rectangle is a parallelogram with 90 degree angle.
+		parent::__construct($length, $height,$radangle);
 	}
-	function calcPerimeter(): float {
-		return 2 * ($this->length + $this->height);
-	}
-	function resize(float $factor): float {	
-		parent::reCalcDim($factor);		
-		return $this->calcArea();
-	}	
 }

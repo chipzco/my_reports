@@ -1,6 +1,7 @@
 <?php 
-namespace Tests\AppBundle\Model\Circle;
-use AppBundle\Model\Shapes\{Shape,Circle,Rectangle,RightTriangle,EquilateralTriangle,Square};
+namespace Tests\AppBundle\Model\Shapes;
+
+use AppBundle\Model\Shapes\{Shape,Circle,Rectangle,RightTriangle,EquilateralTriangle,Square,Parall};
 
 
 
@@ -74,6 +75,35 @@ class ShapesTest extends \PHPUnit_Framework_TestCase
     	//$this->assertEquals(21,$rect->resize(25.69));
     	//$this->assertEquals(3,$rect->resize(1/25.69));
     	
+    }
+    
+    
+    public function testSquare() {
+    	$side=50;
+    	$square=new Square($side);    	
+    	$expectedArea=$side **2;
+    	$expectedPerim=4*$side;    	    	
+    	$this->sizeShapeTests($square,$expectedArea,$expectedPerim);
+    	$scalefactor=1110.5656;
+    	$this->RevSizeScaleTests($square, $scalefactor,$expectedArea);    	
+    }
+    
+    
+    public function testParall() {
+    	$length=30.56;
+    	$height=100.92;
+    	$angle=M_PI / 180 * 60; 
+    	$parall=new Parall($length,$height,$angle);
+    	
+    	$expectedArea=$length * $height;
+    	$width=$height/sin($angle);
+    	$expectedPerim=2* ($width + $length);
+    	    	
+    	 
+    	$this->sizeShapeTests($parall,$expectedArea,$expectedPerim);
+    	$scalefactor=1110.5656;
+    	$this->RevSizeScaleTests($parall, $scalefactor,$expectedArea);
+    	 
     }
     
     

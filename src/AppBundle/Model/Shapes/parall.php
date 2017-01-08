@@ -2,7 +2,7 @@
 namespace AppBundle\Model\Shapes;
 
 class Parall extends GenericScalingFactorShape implements Shape {
-	/** specify the parallelogram with just the length (base), height and acute angle of slant or diagonal sides
+	/** specify the parallelogram with just the length (base), height and acute angle of slant or diagonal sides (in radians)
 	 * 
 	 * 
 	 */
@@ -11,7 +11,7 @@ class Parall extends GenericScalingFactorShape implements Shape {
 	
 	function __construct($length, $height, $angle) {
 		parent::__construct($length, $height);
-		$this->side=$this->height/sin($arg);
+		$this->side=$this->height/sin($angle);
 	}
 	
 	
