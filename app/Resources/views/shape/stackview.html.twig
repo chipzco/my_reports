@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+        	Stack Crons to Run
+        	
+        	<ul>
+                {% for job in crons %}
+        			<li>{{job.getId()}} {{ job.getName() }}  {{ job.getStart() }}</li>
+                {% endfor %}
+			</ul>
+			{{ dump(crons) }}
+			
+			Stack Running Jobs
+        	
+        	<ul>
+                {% for job in jobs %}
+        			<li>{{job.getId()}} {{ job.getName() }}  {{ job.getStart() }}</li>
+                {% endfor %}
+			</ul>
+        	{{ dump(jobs) }}
+        </div>
+    </div>
+{% endblock %}
+        

@@ -6,7 +6,11 @@
         <div id="container">
         	Stack test
         	
-        	AREA: {{ mystack.pop().name }}
+        	<ul>
+                {% for job in mystack %}
+        			<li>{{job.getId()}} {{ job.getName() }}  {{ job.getStart() }}</li>
+                {% endfor %}
+			</ul>
         
         </div>
     </div>

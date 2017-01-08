@@ -20,13 +20,31 @@ class ShapeController extends Controller {
 	
 	
 	/**
-	 * @Route("/shape/stack", name="stackview")
+	 * @Route("/shape/stackstart", name="stackstart")
 	 */
 	public function stackAction(Request $request)
 	{
 		
-		$mystack=StackCrons::createStack();
+		$mystack=StackCrons::createStack($request);
 		return $this->render('shape/stack.html.twig', array('mystack'=>$mystack));
+	}	
+	
+	/**
+	 * @Route("/shape/jobstart", name="jobstart")
+	 */
+	public function jobstartAction(Request $request) {
+		$mystack=StackCrons::startJob($request);
+		return $this->render('shape/stack.html.twig', array('mystack'=>$mystack));
+	}
+	
+	
+	/**
+	 * @Route("/stack/view", name="stackview")
+	 */
+	public function stackviewAction(Request $request) {
+		$mystack=StackCrons::getStack($request);
+		$myrunstack=StackCrons::getRunningStack($request);
+		return $this->render('shape/stackview.html.twig', array('crons'=>$mystack,'jobs'=>$myrunstack));
 	}
 	
 	
