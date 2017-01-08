@@ -1,43 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-
-{# app/Resources/views/default/new.html.twig #}
 {{ form_start(form) }}
 {{ form_widget(form) }}
-{{ form_label(form.transcripts) }}
-{{ form_errors(form.transcripts) }}
 
 
-
-	
-
+{{ form_row(form.transcripts) }}
 	
 
   {# store the prototype on the data-prototype attribute #}
-    <ul id="transcript-fields-list"">
-        {% for transcript in form.transcripts %}
-            <li>
-                {{ form_errors(transcript) }}
-                {{ form_widget(transcript) }}
-            </li>
-        {% endfor %}
-        
-        <li>
-        	<select name="transcripts[]">
-        			<option></option>
-        	</select>
-        	
-        </li>
-        
-        <a href="#" id="add-another-transcript">Add another transcript</a>
-    </ul>
-	
-	
+  
+  
 
 
 {{ form_end(form) }}
+
+   <a href="#" id="add-another-transcript">Add another email</a>
+
 
 {% endblock %}
 {% block javascripts %}
@@ -51,8 +30,8 @@
             jQuery('#add-another-transcript').click(function(e) {
                 e.preventDefault();
     
-                var transcriptList = jQuery('#transcript-fields-list');
-    
+                var transcriptList = jQuery('#video_frm_transcripts');
+    			
                 // grab the prototype template
                 var newWidget = transcriptList.attr('data-prototype');
                 // replace the "__name__" used in the id and name of the prototype
@@ -60,9 +39,9 @@
                 // end name attribute looks like name="contact[transcripts][2]"
                 newWidget = newWidget.replace(/__name__/g, transcriptCount);
                 transcriptCount++;
-    
+    			console.log(transcriptCount);
                 // create a new list element and add it to the list
-                var newLi = jQuery('<li></li>').html(newWidget);
+                var newLi = jQuery('<div></div>').html(newWidget);
                 newLi.appendTo(transcriptList);
             });
         })

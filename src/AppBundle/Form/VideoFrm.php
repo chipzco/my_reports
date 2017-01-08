@@ -38,7 +38,7 @@ class VideoFrm extends AbstractType {
 					),
 					'allow_add'=>true,
 					'allow_delete'=>true,
-					'prototype'=>false
+					'prototype'=>true
 				) 
 			)
 			
