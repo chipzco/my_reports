@@ -6,6 +6,9 @@ namespace AppBundle\Model\Shapes;
 abstract class GenericScalingFactorShape {
 /**   Generic shape with two dimensions/associated properties
 	   and implementation of setting these dimensions proportionally  when area is scaled by a factor
+	   	   
+	   (Another possibility would have been to use reCalcDim as a Trait)
+	   
 **/
 	
 	protected $length;

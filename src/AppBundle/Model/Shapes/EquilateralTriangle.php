@@ -8,9 +8,8 @@ class EquilateralTriangle extends RightTriangle  {
 		$this->height=sqrt($side**2 - ($side/2)**2);
 	}	
 	function calcPerimeter(): float {
-		return $this->side *3;
-	}
-	
+		return $this->length *3;
+	}	
 }
 
 ?>
