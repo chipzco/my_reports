@@ -7,7 +7,10 @@ abstract class GenericScalingFactorShape {
 /**   Generic shape with two dimensions/associated properties
 	   and implementation of setting these dimensions proportionally  when area is scaled by a factor
 	   	   
-	   (Another possibility would have been to use reCalcDim as a Trait)
+	   (
+	   		Another possibility would have been to use reCalcDim as a Trait 
+	   		since the sole purpose of this is to set two properties and do the scaling. 
+	   )
 	   
 **/
 	
