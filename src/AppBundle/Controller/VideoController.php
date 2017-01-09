@@ -34,4 +34,28 @@ class VideoController extends Controller {
 		
 		return $this->render('video/add.html.twig', array('form'=>$form->createView()));
 	}
+	
+	/**
+	 * @Route("/video/edit/{videoId}", name="videoedit", requirements={"videoId": "\d+"} )
+	 */
+	public function editAction($videoId, Request $request) {
+		$video = $this->getDoctrine()->getRepository('AppBundle:Video')->find($videoId);		
+		if (!$video) {
+			throw $this->createNotFoundException('No video found for id '.$videoId);
+		}
+		$form = $this->createForm(VideoFrm::class, $video);
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid()) {
+			// $form->getData() holds the submitted values
+			// but, the original `$task` variable has also been updated
+			$video = $form->getData();
+		
+			// ... perform some action, such as saving the task to the database
+			// for example, if Task is a Doctrine entity, save it!
+			$em = $this->getDoctrine()->getManager();			
+			$em->flush();		
+			return $this->redirectToRoute('homepage');
+		}	
+		return $this->render('video/add.html.twig', array('form'=>$form->createView()));
+	}	
 }
