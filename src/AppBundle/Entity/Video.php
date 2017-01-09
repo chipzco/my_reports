@@ -74,6 +74,9 @@ class Video
 	 *      )
 	 */
 	private $transcripts;
+	
+	private $patact_labels=array("CHOOSE ONE","Patient","Actor","?");
+	
 	public function __construct() {
 		$this->transcripts = new \Doctrine\Common\Collections\ArrayCollection();
 	}
@@ -242,4 +245,10 @@ class Video
     {
         return $this->transcripts;
     }
+    
+    
+    public function getPatientact_txt() {
+    	return $dispText=$this->patact_labels[$this->patientact];
+    }    
+    
 }

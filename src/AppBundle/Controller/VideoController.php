@@ -28,7 +28,7 @@ class VideoController extends Controller {
 			 $em->persist($video);
 			 $em->flush();
 		
-			return $this->redirectToRoute('homepage');
+			return $this->redirectToRoute('videolist');
 		}
 		
 		
@@ -54,8 +54,20 @@ class VideoController extends Controller {
 			// for example, if Task is a Doctrine entity, save it!
 			$em = $this->getDoctrine()->getManager();			
 			$em->flush();		
-			return $this->redirectToRoute('homepage');
+			return $this->redirectToRoute('videolist');
 		}	
 		return $this->render('video/add.html.twig', array('form'=>$form->createView()));
 	}	
+	
+	
+	/**
+	 * @Route("/video/list", name="videolist")
+	 */
+	public function listAction() {
+		$videos=$this->getDoctrine()->getRepository("AppBundle:Video")->listVideoswithLanguageTranscript() ; //listVideoswithLanguage();
+		
+		$urlAdd = $this->generateUrl('videoadd');		
+		return $this->render('video/list.html.twig', array('videos'=>$videos,"urlAdd"=>$urlAdd));
+	}
+	
 }
