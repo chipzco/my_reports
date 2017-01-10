@@ -1,0 +1,55 @@
+<?php
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/** Invoice Header
+*
+* @ORM\Table
+* @ORM\Entity(repositoryClass="AppBundle\Repository\InvoiceHeaderRepository")
+*/
+class InvoiceHeader
+{	
+	
+	
+	/**
+	 
+	 * @Assert\NotBlank()
+	 * @ORM\Id
+	 * @ORM\Column(type="string", length=50, unique=true )	 
+	 * 
+	 */
+	private $invoicenum;
+	
+	/**
+	 * * @Assert\NotBlank()
+	 *   @ORM\Column(type="date")
+	 */
+	private $invoicedate;
+	
+	
+	
+	
+	/**
+	 * @Assert\NotBlank() 
+	 * @ORM\Column(type="float")
+	 */
+	private $invoiceamount;
+	
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="InvoiceDetail", mappedBy ="invoiceheader")
+	 * 	
+	 */
+	private $invoicedetails;
+	
+	
+	
+	
+	public function __construct() {
+		$this->invoicedetails = new \Doctrine\Common\Collections\ArrayCollection();
+	}
+	
+
+        
+}

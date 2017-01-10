@@ -1,0 +1,54 @@
+<?php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/** Invoice Charge
+ *
+ * @ORM\Table
+ * @ORM\Entity
+ */
+
+class InvoiceCharge {
+	/**	
+	* @Assert\NotBlank()	 
+	* @ORM\Column(type="string", length=50)	
+	*/
+	private $invoicenum;
+	
+	
+	/**
+	 * @Assert\NotBlank()	
+	 * @ORM\Column(type="string", length=50)
+	 * @ORM\Id
+	 */
+	private $trackingnum;
+	
+	
+	
+	/**
+	 * @Assert\NotBlank()	
+	 * @ORM\Column(type="string", length=10)
+	 * @ORM\Id
+	 */
+	private $chargetype;
+	
+	
+	/**
+	 * @Assert\NotBlank()	
+	 * @ORM\Column(type="float")
+	 */
+	private $chargeamount;
+	
+	
+	/**
+	 * @ORM\ManyToOne(targetEntity="InvoiceDetail",inversedBy="invoicecharges")
+	 * @ORM\JoinColumn(name="trackingnum", referencedColumnName="trackingnum")
+	 * 
+	 */	
+	private $invoicedetail;
+	
+	
+	
+}
