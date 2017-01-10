@@ -247,7 +247,7 @@ class Video
     }
     
     
-    public function getPatientact_txt() {
+    public function getPatientactTxt() {
     	return $dispText=$this->patact_labels[$this->patientact];
     }    
     

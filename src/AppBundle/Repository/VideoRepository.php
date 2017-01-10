@@ -21,7 +21,7 @@ class VideoRepository extends \Doctrine\ORM\EntityRepository
 	}
 	
 	public function listVideoswithLanguageTranscript() {
-		$query=$this->getEntityManager()->createQuery('Select v, l, t from AppBundle:Video v  JOIN v.language l JOIN v.transcripts t');
+		$query=$this->getEntityManager()->createQuery('Select v, l, t from AppBundle:Video v  JOIN v.language l LEFT JOIN v.transcripts t');
 		try {
 			return $query->getResult();
 		}
