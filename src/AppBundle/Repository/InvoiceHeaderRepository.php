@@ -10,15 +10,11 @@ namespace AppBundle\Repository;
  */
 class InvoiceHeaderRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function listInvoices($date_st,$dateend) {
-		$query=$this->getEntityManager()->createQuery('SELECT h, COUNT(h.invoicenum) AS counted,SUM(h.invoiceamount) as summed FROM Appbundle:Entities\InvoiceHeader h where 
-					h.invoicedate >= :date_start AND h.invoicedate <= :date_end');
-		
+	public function listInvoices($date_st,$date_end) {
+		$query=$this->getEntityManager()->createQuery('SELECT h  FROM AppBundle:InvoiceHeader h 
+				where h.invoicedate >= :date_start AND h.invoicedate <= :date_end ');		
 		try {
-			$query->setParameters(array(
-					'date_start' => $date_st,
-					'dateend' => $date_end
-			));
+			$query->setParameters(array('date_start' => $date_st,'date_end' => $date_end));
 			return $query->getResult();
 		}
 		catch(\Doctrine\ORM\NoResultException $e) {		
