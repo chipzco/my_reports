@@ -49,18 +49,10 @@ class InvoiceController extends Controller {
 	/**
 	 * @Route("/invoice/repgen",name="invoice_reportgen")
 	 */
-	public function repGenAction(InvoiceReportForm $repform,Request $request) {		
-		
-		
-		$frm=$request->request;	
-		$repres=$repform;
-		/*
-		$repbu=new RepBU($this->getDoctrine()->getRepository("AppBundle:InvoiceHeader"));
-		$repres=$repbu->processRepFrm($frm->get('date_from','1/1/2001'),$frm->get('date_to','1/1/2020'));
-		*/
-		//$repres=$this->getDoctrine()->getRepository("AppBundle:InvoiceHeader")->ListInvoices($frm->get('date_from','1/1/2001'),$frm->get('date_to','1/1/2020'));
-		return $this->render('invoice/rep1form.html.twig',array('rep'=>$repres));
-		
+	public function repGenAction(InvoiceReportForm $repform,Request $request) {				
+		$repbu=new RepBU();		
+		$repres=$repbu->processRepFrm($this->getDoctrine()->getRepository("AppBundle:InvoiceHeader"),$repform);	
+		return $this->render('invoice/repreesults.html.twig',array('repres'=>$repres,'repform'=>$repform));		
 	}
 	
 }

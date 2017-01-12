@@ -11,7 +11,7 @@ use AppBundle\Model\iInvBU;
  */
 class InvoiceHeaderRepository extends \Doctrine\ORM\EntityRepository implements iInvBU
 {
-	public function listInvoices($date_st,$date_end) {
+	public function listInvoices(\datetime $date_st,\datetime $date_end) {
 		$query=$this->getEntityManager()->createQuery('SELECT h  FROM AppBundle:InvoiceHeader h 
 				where h.invoicedate >= :date_start AND h.invoicedate <= :date_end ');		
 		try {

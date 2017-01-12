@@ -24,6 +24,7 @@ class InvoiceReportForm {
 	
 	public function setStartDate(\DateTime $sDate = null)
 	{
+		
 		$this->startDate = $sDate;
 	}
 	

@@ -1,0 +1,27 @@
+
+
+<div>
+
+
+
+
+
+			{%  for r in repres  %}
+			<div class="row">
+				<div class="col-md-2">
+					{{ r.invoicenum }}				
+				</div>			
+				<div class="col-md-2">
+					{{ r.invoicedate |date('Y-m-d') }} 				
+				</div>
+				<div class="col-md-2">
+					{{ r.invoiceamount }}				
+				</div>
+				
+			</div>
+			{%  endfor  %}
+		
+		
+		
+		</div>
+		
