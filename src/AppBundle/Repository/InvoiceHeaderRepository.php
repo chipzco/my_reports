@@ -25,7 +25,18 @@ class InvoiceHeaderRepository extends \Doctrine\ORM\EntityRepository implements 
 	}
 	
 	
-	
+	public function SumInvoices(\datetime $date_st,\datetime $date_end) {
+		$query=$this->getEntityManager()->createQuery('SELECT SUM(h.invoiceamount) as summed  FROM AppBundle:InvoiceHeader h
+				where h.invoicedate >= :date_start AND h.invoicedate <= :date_end ');
+		try {
+			$query->setParameters(array('date_start' => $date_st,'date_end' => $date_end));
+			return $query->getSingleScalarResult();
+		}
+		catch(\Doctrine\ORM\NoResultException $e) {
+			die($e);
+			return null;
+		}
+	}
 	
 	
 }

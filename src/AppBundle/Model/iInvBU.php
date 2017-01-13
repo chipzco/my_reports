@@ -6,4 +6,5 @@ interface iInvBU
 	 */
 {
 	public function ListInvoices(\datetime $date_st,\datetime $date_end);
+	public function SumInvoices(\datetime $date_st,\datetime $date_end);
 }

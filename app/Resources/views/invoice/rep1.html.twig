@@ -1,12 +1,14 @@
 
 
 <div>
+	{%  if repres.recordcount==0 %}
+		No records found.
+	
+	{%  else  %}
 
+	
 
-
-
-
-			{%  for r in repres  %}
+			{%  for r in repres.records  %}
 			<div class="row">
 				<div class="col-md-2">
 					{{ r.invoicenum }}				
@@ -18,10 +20,17 @@
 					{{ r.invoiceamount }}				
 				</div>
 				
-			</div>
+			</div>			
 			{%  endfor  %}
 		
-		
+			<div class="row">
+				<div class="col-md-4">
+					{{ repres.recordcount }}
+				</div>
+				<div class="col-md-2">
+					{{ repres.sum }}
+				</div>
+			</div>
 		
 		</div>
-		
+{%  endif %}		

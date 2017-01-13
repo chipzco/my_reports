@@ -17,9 +17,10 @@ class RepBU {
 	function processRepFrm(iInvBU $invbu,InvoiceReportForm $invform) {
 		if ($invform->getStartDate()==null || $invform->getEndDate()==null)
 			die("Incorrect dates");
-		return $invbu->ListInvoices($invform->getStartDate(),$invform->getEndDate());
-	}
-	
-	
+		$res['records']= $invbu->ListInvoices($invform->getStartDate(),$invform->getEndDate());
+		$res['recordcount']=count($res['records']);
+		$res['sum']=$invbu->SumInvoices($invform->getStartDate(),$invform->getEndDate());
+		return $res;
+	}	
 }
 
