@@ -29,9 +29,27 @@ class RepBU {
 				$res['records']=$invbu->ListDetDisc($invform->getStartDate(),$invform->getEndDate());
 				$res['recordcount']=count($res['records']);
 				break;
+			case 3:
+				$recs=$invbu->ListChargeDisc($invform->getStartDate(),$invform->getEndDate());
+				$res=[];
+				$res['records']=[];
+				foreach($recs as $r) {
+					$discre=false;
+					foreach ($r->getInvoicedetails() as $d) {
+						if ($d->getDiscrep() != 0) {
+							$discre=true;	
+						}
+						
+					}
+					if ($discre)
+						$res['records'][]=$r;
+				}				
+				
+				$res['recordcount']=count($res['records']);
 				
 		}
 		return $res;
-	}	
+	}
+	
 }
 

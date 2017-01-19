@@ -55,6 +55,9 @@ class InvoiceDetail
 	private $invoicecharges;
 	
 	
+	private $totalcharges;
+	private $discrep;
+	
 	public function __construct() {
 		$this->invoicecharges = new \Doctrine\Common\Collections\ArrayCollection();
 	}
@@ -189,5 +192,22 @@ class InvoiceDetail
     public function getInvoicecharges()
     {
         return $this->invoicecharges;
+    }
+    
+    
+    public function getSumInvoiceCharges() {
+    	if ($this->totalcharges==null) {
+    		$summed=0;
+    		foreach($this->invoicecharges as $invchg) {
+    			$summed+=$invchg->getChargeamount();
+    		}
+    		$this->totalcharges=$summed;
+    	}
+    	return $this->totalcharges;
+    }
+    public function getDiscrep() {
+    	if ($this->discrep==null)
+    		$this->discrep=$this->detailamount - $this->getSumInvoiceCharges();
+    	return $this->discrep;
     }
 }

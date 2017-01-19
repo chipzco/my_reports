@@ -45,6 +45,9 @@ class InvoiceHeader
 	
 	
 	
+	private $summedInvoiceDetails;
+	private $discrepancy;
+	
 	
 	public function __construct() {
 		$this->invoicedetails = new \Doctrine\Common\Collections\ArrayCollection();
@@ -160,14 +163,19 @@ class InvoiceHeader
     }
     
     public function getSumInvoiceDetails() {
-    	$summed=0;
-    	foreach($this->invoicedetails as $invdet) {
-    		$summed+=$invdet->getDetailamount();
-    	}    	
-    	return $summed;
+    	if ($this->summedInvoiceDetails==null) {
+	    	$summed=0;
+	    	foreach($this->invoicedetails as $invdet) {
+	    		$summed+=$invdet->getDetailamount();
+	    	}
+	    	$this->summedInvoiceDetails=$summed;
+    	}
+    	return $this->summedInvoiceDetails;
     }
     public function getDiscrep() {
-    	return $this->invoiceamount - $this->getSumInvoiceDetails();    	
+    	if ($this->discrepancy==null) 
+    		$this->discrepancy=$this->invoiceamount - $this->getSumInvoiceDetails();
+    	return $this->discrepancy;
     }
     
 }

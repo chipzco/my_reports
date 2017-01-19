@@ -1,0 +1,55 @@
+
+
+<div>
+	{%  if repres.recordcount==0 %}
+		No records found.
+	
+	{%  else  %}
+		<table class="table table-hover table-sm">
+			<caption>Invoice Headers</caption>
+    		<thead><tr>    
+                <th>Invoice Number</th>
+    
+                <th>Invoice Date</th>
+    
+    			<th>Tracking Num </th>
+    			
+                <th class="text-right">Detail Amount</th>
+                
+                <th class="text-right">Charge Amount Total</th>
+                <th class="text-right">Discrepancy</th>   
+            </tr></thead>
+			
+			<tbody>
+			{%  for r in repres.records  %}
+			{%  for d in r.invoicedetails  %}
+			
+				<tr>
+					
+				<td>				
+					{{ r.invoicenum }}				
+				</td>			
+				<td>
+					{{ r.invoicedate |date('Y-m-d') }} 				
+				</td>
+				<td>{{ d.trackingnum }}</td>
+				<td class="text-right">
+					{{ d.detailamount|number_format(2) }}				
+				</td>			
+				<td class="text-right">
+					{{ d.getSumInvoiceCharges()|number_format(2) }}				
+				</td>
+				<td class="text-right">
+					{{ d.getDiscrep()|number_format(2) }}
+				</td>
+				</tr>
+			{%  endfor   %}
+			{%  endfor %}
+			</tbody>	
+		
+		</div>
+{%  endif %}		
+
+
+
+	
