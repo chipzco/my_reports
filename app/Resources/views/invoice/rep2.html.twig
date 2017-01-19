@@ -12,12 +12,16 @@
     
                 <th>Invoice Date</th>
     
-                <th class="text-right">Invoice Amount</th>   
+                <th class="text-right">Invoice Amount</th>
+                
+                <th class="text-right">Sum</th>
+                <th class="text-right">Discrepancy</th>   
             </tr></thead>
 			
 			<tbody>
 			{%  for r in repres.records  %}
-			<tr>
+				<tr>
+					
 				<td>
 					{{ r.invoicenum }}				
 				</td>			
@@ -27,17 +31,19 @@
 				<td class="text-right">
 					{{ r.invoiceamount }}				
 				</td>			
-			</tr>			
-			{%  endfor  %}
-			</tbody>
-			<tfooter">
-				<td colspan="2">				
-					{{ repres.recordcount }} Records: 
-				</div>
 				<td class="text-right">
-					{{ repres.sum }}
+					{{ r.getSumInvoiceDetails() }}				
 				</td>
-			</tfooter>
+				<td class="text-right">
+					{{ r.getDiscrep() }}
+				</td>
+				</tr>
+			{%  endfor  %}
+			</tbody>	
 		
 		</div>
 {%  endif %}		
+
+
+
+	

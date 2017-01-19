@@ -12,6 +12,7 @@
  	<div class="container">
 		
 		<h2>Report {{repform.getReportNum() }}</h2>
+		<div><a href="{{path('invoice_rep')}}">&lt;&lt;</a></div>		
 		 {% set templnum=repform.getReportNum() %}	
          {{ include("invoice/rep#{templnum}.html.twig", { 'repres': repres }) }}
  

@@ -38,5 +38,19 @@ class InvoiceHeaderRepository extends \Doctrine\ORM\EntityRepository implements 
 		}
 	}
 	
+	public function ListDetDisc(\datetime $date_st,\datetime $date_end) {
+		$query=$this->getEntityManager()->createQuery('SELECT h, d  FROM  AppBundle:InvoiceHeader h JOIN h.invoicedetails d 
+					 where h.invoicedate >= :date_start AND h.invoicedate <= :date_end ' );				
+		try {
+			$query->setParameters(array('date_start' => $date_st,'date_end' => $date_end));
+			return $query->getResult();
+		}
+		catch(\Doctrine\ORM\NoResultException $e) {
+			die($e);
+			return null;
+		}
+		
+	}
+	
 	
 }

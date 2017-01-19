@@ -158,4 +158,16 @@ class InvoiceHeader
     {
         return $this->invoicedetails;
     }
+    
+    public function getSumInvoiceDetails() {
+    	$summed=0;
+    	foreach($this->invoicedetails as $invdet) {
+    		$summed+=$invdet->getDetailamount();
+    	}    	
+    	return $summed;
+    }
+    public function getDiscrep() {
+    	return $this->invoiceamount - $this->getSumInvoiceDetails();    	
+    }
+    
 }
