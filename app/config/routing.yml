@@ -1,3 +1,7 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+chmerest:
+   resource: "@ChmeRestBundle/Resources/config/routing.yml"
+   prefix:   /
