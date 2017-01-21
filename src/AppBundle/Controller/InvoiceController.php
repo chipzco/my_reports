@@ -1,6 +1,8 @@
 <?php
 namespace AppBundle\Controller;
-use AppBundle\Entity\{InvoiceCharge,InvoiceDetail,InvoiceHeader};
+use AppBundle\Entity\InvoiceCharge;
+use AppBundle\Entity\InvoiceDetail;
+use AppBundle\Entity\InvoiceHeader;
 use AppBundle\Model\RepBU;
 use AppBundle\Model\InvoiceReportForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

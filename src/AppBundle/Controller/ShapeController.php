@@ -1,7 +1,8 @@
 <?php
 namespace AppBundle\Controller;
 use AppBundle\Model\Shapes\Circle;
-use AppBundle\Model\{CronJob,StackCrons};
+use AppBundle\Model\CronJob;
+use AppBundle\Model\StackCrons;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
