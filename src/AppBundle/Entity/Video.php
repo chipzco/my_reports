@@ -248,7 +248,10 @@ class Video
     
     
     public function getPatientactTxt() {
-    	return $dispText=$this->patact_labels[$this->patientact];
+    	$dispText="";
+    	if ( $this->patientact !=null &&  $this->patientact>=0 && $this->patientact < count($this->patact_labels))
+    		$dispText=$this->patact_labels[$this->patientact];
+    	return $dispText;
     }    
     
 }
