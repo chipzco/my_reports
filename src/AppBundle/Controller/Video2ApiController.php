@@ -25,9 +25,7 @@ class Video2ApiController extends RestController {
 		return parent::indexAction();
 	}
 	
-	protected function GET_PAG(Request $request,$Id=null) {
-		$t['method']= "GET ANything I want from API!";
-		$t['contenttype']=$request->headers->get('content_type');
+	protected function GET_PAG(Request $request,$Id=null) {		
 		$t['Id']=$Id;
 		$video = $this->getDoctrine()->getRepository('AppBundle:Video')->find($Id);
 		if (!$video) {
@@ -52,6 +50,9 @@ class Video2ApiController extends RestController {
 			$t['exception']='No videoid and/or filename set ';
 			return JsonResponse::create($t,RESPONSE::HTTP_UNPROCESSABLE_ENTITY);
 		}
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($video);
+		$em->flush();
 		return $this->json($video);
 	}
 	protected function setVideo($video_data): Video {
