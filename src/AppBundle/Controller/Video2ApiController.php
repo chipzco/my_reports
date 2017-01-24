@@ -55,12 +55,25 @@ class Video2ApiController extends RestController {
 		$em->flush();
 		return $this->json($video);
 	}
+	
+	
+	protected function PUT_PAG(Request $request,$Id=null) {		
+		$video=$this->setVideo($this->getContentJson($request));
+		if (!(strlen($video->getFilename()) > 0 && is_numeric($video->getVideoid()))) {
+			$t['exception']='No videoid and/or filename set ';
+			return JsonResponse::create($t,RESPONSE::HTTP_BAD_REQUEST);
+		}
+		$em = $this->getDoctrine()->getManager();
+		$em->flush();		
+		return $this->json($video);
+	}
+	
 	protected function setVideo($video_data): Video {
 		$video=new Video();
 		if (is_array($video_data)) {
 			if (array_key_exists('id', $video_data) && $video_data['id']>0) {
 				$id=$video_data['id'];
-				$video = $this->getDoctrine()->getRepository('AppBundle:Video')->find($Id);
+				$video = $this->getDoctrine()->getRepository('AppBundle:Video')->find($id);
 				if (!$video) {
 					return null;				
 				}
@@ -79,6 +92,9 @@ class Video2ApiController extends RestController {
 				 $lang=$this->getDoctrine()->getRepository("AppBundle:Language")->find($lid);
 				 if ($lang)
 				 	$video->setLanguage($lang);
+			}
+			foreach ($video->getTranscripts() as $oldtrans) {
+				$video->removeTranscript($oldtrans);
 			}
 			if (array_key_exists('transcripts', $video_data) && is_array($video_data['transcripts']) && count($video_data['transcripts'])>0)  {			
 				foreach ($video_data['transcripts'] as $transcript) {
@@ -102,13 +118,7 @@ class Video2ApiController extends RestController {
 		}
 		return $jsonvars;
 	}
-	protected function PUT_PAG(Request $request,$Id=null) {
-		$t['method']= "PUT in API !!!";
-		$t['contenttype']=$request->headers->get('content_type');
-		$t['Id']=$Id;
-		$t['putvars']=$this->getContentJson($request);
-		return $this->json($t);
-	}
+	
 	protected function DELETE_PAG(Request $request,$Id=null) {
 		$t['method']= "DELETE  in API!!!";
 		$t['contenttype']=$request->headers->get('content_type');
