@@ -120,12 +120,17 @@ class Video2ApiController extends RestController {
 	}
 	
 	protected function DELETE_PAG(Request $request,$Id=null) {
-		$t['method']= "DELETE  in API!!!";
-		$t['contenttype']=$request->headers->get('content_type');
-		$t['Id']=$Id;
+		$em = $this->getDoctrine()->getManager();		
+		$video = $this->getDoctrine()->getRepository('AppBundle:Video')->find($Id);		
+		if (!$video) {
+			$t['exception']='No video found for id '.$Id;
+			return JsonResponse::create($t,RESPONSE::HTTP_NOT_FOUND);
+		}
+		$em->remove($video);
+		$em->flush();		
 		//return $this->json($t);
 		//$resp=new Response('',RESPONSE::HTTP_OK);
-		return JsonResponse::create($t);
+		return $this->json($video);
 	}
 	
 }
