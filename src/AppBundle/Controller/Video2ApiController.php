@@ -68,7 +68,7 @@ class Video2ApiController extends RestController {
 		return $this->json($video);
 	}
 	
-	protected function setVideo($video_data): Video {
+	protected function setVideo($video_data) {
 		$video=new Video();
 		if (is_array($video_data)) {
 			if (array_key_exists('id', $video_data) && $video_data['id']>0) {
