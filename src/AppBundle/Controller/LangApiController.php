@@ -11,7 +11,7 @@ use AppBundle\Entity\Language;
 
 class LangApiController extends RestController {
 	/**
-	 * @Route("/langapi/", name="LangApiNoid" )
+	 * @Route("/api/lang/", name="Api_Lang_Noid" )
 	 */
 	public function defaultNoIdAction() {
 		return parent::indexAction();

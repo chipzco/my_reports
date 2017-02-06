@@ -13,7 +13,7 @@ class VideoAPIController extends Controller {
 	
 	
 	/**
-	 * @Route("/api/video/list", name="api_videolist")
+	 * @Route("/api_old/video/list", name="api_old__videolist")
 	 */
 	public function listAction() {
 		$videos=$this->getDoctrine()->getRepository("AppBundle:Video")->listVideoswithLanguageTranscript() ; //listVideoswithLanguage();

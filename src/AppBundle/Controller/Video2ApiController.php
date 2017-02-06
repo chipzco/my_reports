@@ -11,7 +11,7 @@ use AppBundle\Entity\Video;
 
 class Video2ApiController extends RestController {
 	/**
-	 * @Route("/videoapi/{id}", name="Api", requirements={"id": "\d+"} )
+	 * @Route("/api/video/{id}", name="Api_video_by_id", requirements={"id": "\d+"} )
 	 */
 	public function defaultAction($id=0) {
 		
@@ -19,7 +19,7 @@ class Video2ApiController extends RestController {
 	}
 	
 	/**
-	 * @Route("/videoapi/", name="ApiNoid" )
+	 * @Route("/api/video/", name="Api_video_Noid" )
 	 */
 	public function defaultNoIdAction() {
 		return parent::indexAction();

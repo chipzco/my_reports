@@ -38,14 +38,14 @@ class Study
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="StartDate", type="date")
+     * @ORM\Column(name="StartDate", type="date",nullable=true)
      */
     private $startDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="DueDate", type="date")
+     * @ORM\Column(name="DueDate", type="date",nullable=true)
      */
     private $dueDate;
 
