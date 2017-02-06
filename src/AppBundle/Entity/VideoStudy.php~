@@ -109,52 +109,5 @@ class VideoStudy
     {
         return $this->notes;
     }
-
-    /**
-     * Set video
-     *
-     * @param \AppBundle\Entity\Video $video
-     *
-     * @return VideoStudy
-     */
-    public function setVideo(\AppBundle\Entity\Video $video = null)
-    {
-        $this->video = $video;
-
-        return $this;
-    }
-
-    /**
-     * Get video
-     *
-     * @return \AppBundle\Entity\Video
-     */
-    public function getVideo()
-    {
-        return $this->video;
-    }
-
-    /**
-     * Set study
-     *
-     * @param \AppBundle\Entity\Study $study
-     *
-     * @return VideoStudy
-     */
-    public function setStudy(\AppBundle\Entity\Study $study = null)
-    {
-        $this->study = $study;
-
-        return $this;
-    }
-
-    /**
-     * Get study
-     *
-     * @return \AppBundle\Entity\Study
-     */
-    public function getStudy()
-    {
-        return $this->study;
-    }
 }
+

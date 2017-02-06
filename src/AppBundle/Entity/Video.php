@@ -75,10 +75,17 @@ class Video
 	 */
 	private $transcripts;
 	
+	/**
+	 * One Video to Many VideoStudy
+	 * @ORM\OneToMany(targetEntity="VideoStudy",mappedBy="video")	 
+	*/
+	private $video_studies;
+	
 	private $patact_labels=array("CHOOSE ONE","Patient","Actor","?");
 	
 	public function __construct() {
 		$this->transcripts = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->video_studies=new \Doctrine\Common\Collections\ArrayCollection();
 	}
 	
 
@@ -254,4 +261,38 @@ class Video
     	return $dispText;
     }    
     
+
+    /**
+     * Add videoStudy
+     *
+     * @param \AppBundle\Entity\VideoStudy $videoStudy
+     *
+     * @return Video
+     */
+    public function addVideoStudy(\AppBundle\Entity\VideoStudy $videoStudy)
+    {
+        $this->video_studies[] = $videoStudy;
+
+        return $this;
+    }
+
+    /**
+     * Remove videoStudy
+     *
+     * @param \AppBundle\Entity\VideoStudy $videoStudy
+     */
+    public function removeVideoStudy(\AppBundle\Entity\VideoStudy $videoStudy)
+    {
+        $this->video_studies->removeElement($videoStudy);
+    }
+
+    /**
+     * Get videoStudies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVideoStudies()
+    {
+        return $this->video_studies;
+    }
 }

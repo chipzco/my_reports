@@ -163,45 +163,5 @@ class Study
     {
         return $this->dueDate;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->video_studies = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add videoStudy
-     *
-     * @param \AppBundle\Entity\VideoStudy $videoStudy
-     *
-     * @return Study
-     */
-    public function addVideoStudy(\AppBundle\Entity\VideoStudy $videoStudy)
-    {
-        $this->video_studies[] = $videoStudy;
-
-        return $this;
-    }
-
-    /**
-     * Remove videoStudy
-     *
-     * @param \AppBundle\Entity\VideoStudy $videoStudy
-     */
-    public function removeVideoStudy(\AppBundle\Entity\VideoStudy $videoStudy)
-    {
-        $this->video_studies->removeElement($videoStudy);
-    }
-
-    /**
-     * Get videoStudies
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getVideoStudies()
-    {
-        return $this->video_studies;
-    }
 }
+
