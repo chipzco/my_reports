@@ -50,9 +50,11 @@ class StudyApiController extends RestController {
 			$t['exception']='No protocol set ';
 			return JsonResponse::create($t,RESPONSE::HTTP_UNPROCESSABLE_ENTITY);
 		}
+		
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($study);
 		$em->flush();
+		
 		return $this->json($study);
 	}
 	
@@ -82,12 +84,31 @@ class StudyApiController extends RestController {
 				$study->setProtocol($study_data['protocol']);
 			if (array_key_exists('CRO', $study_data))
 				$study->setCRO($study_data['CRO']);
-			if (array_key_exists('StartDate', $study_data))
-				$study->setStartDate($study_data['StartDate']);
-			if (array_key_exists('DueDate', $study_data))
-				$study->setDueDate(($study_data['DueDate']));						
+			if (array_key_exists('StartDate', $study_data)) {
+				if ($this->checkDate($study_data['StartDate'])!=1)
+					$study->setStartDate(null);
+				else {
+					$dateval=new \DateTime($study_data['StartDate']);					
+					$study->setStartDate($dateval);
+				}
+			}
+			if (array_key_exists('DueDate', $study_data)) {
+				if ($this->checkDate($study_data['DueDate'])!=1)
+					$study->setDueDate(null);
+				else {
+					$dateval=new \DateTime($study_data['DueDate']);
+					$study->setDueDate($dateval);
+				}				
+			}
 		}
 		return $study;
+	}
+	protected function checkDate($datevar) {
+		$regExp='/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/';
+		//return preg_match($regExp,$datevar);
+		//if (count($datevar.explode("-", $datevar))==3)
+		return 1;
+		//return 0;
 	}
 	
 	protected function getContentJson(Request $request) {
