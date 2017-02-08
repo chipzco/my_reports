@@ -37,7 +37,11 @@ class StudyApiController extends RestController {
 	}
 	
 	protected function LIST_PAG(Request $request) {		
-		$studys=$this->getDoctrine()->getRepository("AppBundle:Study")->findAll(); 
+		$studys=$this->getDoctrine()->getRepository("AppBundle:Study")->findAll();
+		foreach ($studys as $s) {
+			$s->convDates();
+			//echo $s['StartDate'];	
+		}
 		$resp['data']=$studys;
 		//$serializer = $this->get('serializer');
 		//$json =$serializer->serialize($resp);

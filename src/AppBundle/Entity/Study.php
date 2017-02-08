@@ -204,4 +204,13 @@ class Study
     {
         return $this->video_studies;
     }
+    
+    public function convDates() {
+    	if ($this->dueDate!=null) {
+    		$this->dueDate=$this->dueDate->format('Y-m-d');
+    	}
+    	if ($this->startDate!=null) {
+    		$this->startDate=$this->startDate->format('Y-m-d');
+    	}    	
+    }
 }
