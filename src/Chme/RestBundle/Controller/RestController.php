@@ -21,6 +21,7 @@ class RestController extends Controller
 		$t['method']= "COULD NOT FIND IT";
 		$t['varmethod']=$method;
 		$t['contenttype']=$request->headers->get('content_type');
+		$t['Allow']="GET,HEAD,POST,PUT,OPTIONS,TRACE,DELETE";
 		return $this->json($t);
 	}
 

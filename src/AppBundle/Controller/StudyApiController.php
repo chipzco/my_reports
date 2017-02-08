@@ -32,6 +32,7 @@ class StudyApiController extends RestController {
 			$t['exception']='No study found for id '.$Id;
 			return JsonResponse::create($t,RESPONSE::HTTP_NOT_FOUND);
 		}
+		$study->convDates();
 		$t['data']=$study;
 		return $this->json($t);
 	}
@@ -108,11 +109,8 @@ class StudyApiController extends RestController {
 		return $study;
 	}
 	protected function checkDate($datevar) {
-		$regExp='/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/';
-		//return preg_match($regExp,$datevar);
-		//if (count($datevar.explode("-", $datevar))==3)
-		return 1;
-		//return 0;
+		$regExp="/^(19|20)\d\d[- \/\.](0[1-9]|1[012])[- \/\.](0[1-9]|[12][0-9]|3[01])$/";
+		return preg_match($regExp,$datevar);		
 	}
 	
 	protected function getContentJson(Request $request) {
