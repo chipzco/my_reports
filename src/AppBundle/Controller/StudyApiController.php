@@ -82,21 +82,21 @@ class StudyApiController extends RestController {
 			}	
 			if (array_key_exists('protocol', $study_data))
 				$study->setProtocol($study_data['protocol']);
-			if (array_key_exists('CRO', $study_data))
-				$study->setCRO($study_data['CRO']);
-			if (array_key_exists('StartDate', $study_data)) {
-				if ($this->checkDate($study_data['StartDate'])!=1)
+			if (array_key_exists('cRO', $study_data))
+				$study->setCRO($study_data['cRO']);
+			if (array_key_exists('startDate', $study_data)) {
+				if ($this->checkDate($study_data['startDate'])!=1)
 					$study->setStartDate(null);
 				else {
-					$dateval=new \DateTime($study_data['StartDate']);					
+					$dateval=new \DateTime($study_data['startDate']);					
 					$study->setStartDate($dateval);
 				}
 			}
-			if (array_key_exists('DueDate', $study_data)) {
-				if ($this->checkDate($study_data['DueDate'])!=1)
+			if (array_key_exists('dueDate', $study_data)) {
+				if ($this->checkDate($study_data['dueDate'])!=1)
 					$study->setDueDate(null);
 				else {
-					$dateval=new \DateTime($study_data['DueDate']);
+					$dateval=new \DateTime($study_data['dueDate']);
 					$study->setDueDate($dateval);
 				}				
 			}
