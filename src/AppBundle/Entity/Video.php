@@ -232,23 +232,10 @@ class Video
         return $this;
     }
 
-    public function filterTranscripts(array $ids) {
-    	$filtered=$this->transcripts->filter(function($val) use ($ids) {
-    		if (array_search($val->getId(), $ids)!==false)
-    			return true;
-    		return false;
-    	});
-    	return $filtered;
-    }
     
-    public function map_give_ids(\Doctrine\Common\Collections\ArrayCollection $coll) {
-    	//return $coll->map(function($val) {  return $val->getId(); 	});
-    	$ids=[];
-    	foreach ($coll as $elem) {
-    		$ids[]=$elem->getId();	
-    	}
-    	return $ids;
-    }
+   
+    
+    
     
     public function clearTranscripts() {
     	$this->transcripts->clear();

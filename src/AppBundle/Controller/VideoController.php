@@ -80,9 +80,10 @@ class VideoController extends Controller {
 	 */
 	public function listAction() {
 		$videos=$this->getDoctrine()->getRepository("AppBundle:Video")->listVideoswithLanguageTranscript() ; //listVideoswithLanguage();
-		
+		$bu = $this->get('app.api.video_bu');
+		$hi=$bu->sayHi();
 		$urlAdd = $this->generateUrl('videoadd');		
-		return $this->render('video/list.html.twig', array('videos'=>$videos,"urlAdd"=>$urlAdd));
+		return $this->render('video/list.html.twig', array('videos'=>$videos,"urlAdd"=>$urlAdd,"hi"=>$hi));
 	}
 	
 }
