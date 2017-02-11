@@ -52,7 +52,8 @@ class Video2ApiController extends RestController {
 		}
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($video);
-		$em->flush();
+		$em->flush();		
+		$id=$video->getId();
 		return $this->json($video);
 	}
 	
@@ -64,7 +65,18 @@ class Video2ApiController extends RestController {
 			return JsonResponse::create($t,RESPONSE::HTTP_BAD_REQUEST);
 		}
 		$em = $this->getDoctrine()->getManager();
-		$em->flush();		
+		$em->flush();
+		$id=$video->getId();
+		return $this->json($video);
+	}
+	
+	protected function refreshVideoTrans($id) {
+		$videos=$this->getDoctrine()->getRepository("AppBundle:Video")->listVideoswithLanguageTranscript() ; 
+		$video = $this->getDoctrine()->getRepository('AppBundle:Video')->find($id);
+		if (!$video) {
+			$t['exception']='cannot retreive video ';
+			return JsonResponse::create($t,RESPONSE::HTTP_INTERNAL_SERVER_ERROR);
+		}
 		return $this->json($video);
 	}
 	
