@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+  <div>video: {{ video.videoid }}</div>
+  
+  <div>Transcripts: 
+  
+  	{%  for t in video.transcripts %}
+      {{t.lname}}  <i>{{t.id}}</i>
+    {%  endfor  %}
+  
+  
+  
+  {%  for t in filt %}
+  	{{ t.lname }}  
+  {%  endfor %}
+  
+  </div>
+  
+{% endblock %}
+
+

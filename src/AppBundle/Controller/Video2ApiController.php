@@ -105,19 +105,49 @@ class Video2ApiController extends RestController {
 				 if ($lang)
 				 	$video->setLanguage($lang);
 			}
+			/*
 			foreach ($video->getTranscripts() as $oldtrans) {
 				$video->removeTranscript($oldtrans);
 			}
-			if (array_key_exists('transcripts', $video_data) && is_array($video_data['transcripts']) && count($video_data['transcripts'])>0)  {			
+			*/
+			
+			if (array_key_exists('transcripts', $video_data) && is_array($video_data['transcripts']) && count($video_data['transcripts'])>0)  {
+				$ids=array_map(function($val) { 
+					return $val['id'];		
+				},$video_data['transcripts']);
+				$filt=$video->filterTranscripts($ids);				
+				$filtids=$video->map_give_ids($filt);				
+				$video->clearTranscripts();
+				foreach ($filt as $transcript) {
+					$video->addTranscript($transcript);
+				}						
+				$filtered_input=array_filter($video_data['transcripts'],(function($val) use ($filtids) {
+					if (array_search($val['id'], $filtids)===false)
+						return true;
+					return false;
+				}));
+				if (count($filtered_input) >0) {
+					foreach ($filtered_input as $inputT) {
+						$lid=$inputT['id'];
+						$lang=$this->getDoctrine()->getRepository("AppBundle:Language")->find($lid);
+						if ($lang)
+							$video->addTranscript($lang);
+					}
+				}
+				/*
 				foreach ($video_data['transcripts'] as $transcript) {
 					if (array_key_exists('id',$transcript)) {
 						$lid=$transcript['id'];
+						
 						$lang=$this->getDoctrine()->getRepository("AppBundle:Language")->find($lid);
 						if ($lang) 
 							$video->addTranscript($lang);
 					}
 				}
-			}			
+				*/
+			}
+			else 
+				$video->clearTranscripts();
 		}
 		return $video;
 	}

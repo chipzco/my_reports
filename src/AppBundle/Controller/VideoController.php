@@ -59,6 +59,21 @@ class VideoController extends Controller {
 		return $this->render('video/add.html.twig', array('form'=>$form->createView()));
 	}	
 	
+	/**
+	 * @Route("/video/see/{videoId}", name="videosee", requirements={"videoId": "\d+"}) 
+	 * 
+	 */
+	
+	public function seeAction($videoId, Request $request) {
+		$video = $this->getDoctrine()->getRepository('AppBundle:Video')->find($videoId);
+		if (!$video) {
+			throw $this->createNotFoundException('No video found for id '.$videoId);
+		}
+		$ids=[149];
+		$filt=$video->filterTranscripts($ids);
+		return $this->render('video/see.html.twig', array('video'=>$video,'filt'=>$filt));
+	}
+	
 	
 	/**
 	 * @Route("/video/list", name="videolist")

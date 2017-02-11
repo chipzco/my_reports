@@ -38,7 +38,7 @@
     			<a href="{{ path('videoedit', {'videoId': video.id}) }}">{{video.filename}}</a>		
     		</div>
     		<div class="col-md-2">
-    			{{video.subjectname}}
+    			<a href="{{ path('videosee',{'videoId': video.id}) }}">{{video.subjectname}}</a>
     		</div>
     		<div class="col-md-2">
     			{{video.language.lname}}		
@@ -48,7 +48,7 @@
     		</div>  
     		<div class="col-md-2">
     			{% for trans in video.transcripts %}
-    			    {{trans.lname}}
+    			    {{trans.lname}}  <i>{{trans.id}}</i>
     			{%  endfor %}
     		</div>   		 		
 		</div>	
