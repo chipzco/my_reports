@@ -113,14 +113,6 @@ class StudyApiController extends RestController {
 		return preg_match($regExp,$datevar);		
 	}
 	
-	protected function getContentJson(Request $request) {
-		$content=utf8_encode($request->getContent());
-		$jsonvars=null;
-		if (!empty($content)) {
-			$jsonvars = json_decode($content,true); // 2nd param to get as array
-		}
-		return $jsonvars;
-	}
 	
 	protected function DELETE_PAG(Request $request,$Id=null) {
 		$em = $this->getDoctrine()->getManager();		
