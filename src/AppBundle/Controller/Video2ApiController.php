@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Chme\RestBundle\Controller\RestController;
 use AppBundle\Entity\Video;
 
+
+
 class Video2ApiController extends RestController {
 	/**
 	 * @Route("/api/video/{id}", name="Api_video_by_id", requirements={"id": "\d+"} )
@@ -38,10 +40,9 @@ class Video2ApiController extends RestController {
 	
 	protected function LIST_PAG(Request $request) {		
 		$videos=$this->getDoctrine()->getRepository("AppBundle:Video")->listVideoswithLanguageTranscript() ; //listVideoswithLanguage();
-		$resp['data']=$videos;
-		$serializer = $this->get('serializer');
-		//$json =$serializer->serialize($resp);
-		return $this->json($resp);
+		$resp['data']=$videos;	
+		$bu=$this->get('app.api.video_bu');
+		return new JsonResponse($bu->getSerializedJson($resp),RESPONSE::HTTP_OK,[],true);		
 	}
 	
 	protected function POST_PAG(Request $request,$Id=null) {

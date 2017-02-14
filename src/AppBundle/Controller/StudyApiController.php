@@ -46,7 +46,8 @@ class StudyApiController extends RestController {
 		$resp['data']=$studys;
 		//$serializer = $this->get('serializer');
 		//$json =$serializer->serialize($resp);
-		return $this->json($resp);
+		$bu=$this->get('app.api.video_bu');
+		return new JsonResponse($bu->getSerializedJson($resp),RESPONSE::HTTP_OK,[],true);		
 	}
 	
 	protected function POST_PAG(Request $request,$Id=null) {		
@@ -59,7 +60,7 @@ class StudyApiController extends RestController {
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($study);
 		$em->flush();
-		
+		$study->convDates();
 		return $this->json($study);
 	}
 	
@@ -72,6 +73,7 @@ class StudyApiController extends RestController {
 		}
 		$em = $this->getDoctrine()->getManager();
 		$em->flush();		
+		$study->convDates();
 		return $this->json($study);
 	}
 	

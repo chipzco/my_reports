@@ -3,6 +3,10 @@ namespace AppBundle\Model;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+
 use AppBundle\Entity\Video;
 use AppBundle\Entity\Study;
 use AppBundle\Entity\Language;
@@ -15,7 +19,15 @@ class VideoBU {
 		return "HELLO!";
 	}
 	
-	
+	public function getSerializedJson($object) {
+		$encoder = new JsonEncoder();
+		$normalizer = new ObjectNormalizer();
+		$normalizer->setCircularReferenceHandler(function ($object) {
+			return $object->getId();
+		});
+		$serializer = new Serializer(array($normalizer), array($encoder));
+		return $serializer->serialize($object, 'json');		
+	}
 	
 	
 	public function setVideo($videoRep,$langRep,$video_data) {
@@ -74,12 +86,12 @@ class VideoBU {
 	}
 	
 	
-	public function setVideoStudy($videoRep,$studyRep,$video_data) {
+	public function setVideoStudy($videostudyRep,$studyRep,$videoRep,$video_data) {
 		$videostudy=new VideoStudy();
 		if (is_array($video_data)) {
 			if (array_key_exists('id', $video_data) && $video_data['id']>0) {
 				$id=$video_data['id'];
-				$videostudy = $videoRep->find($id);
+				$videostudy = $videostudyRep->find($id);
 				if (!$videostudy) {
 					return null;
 				}

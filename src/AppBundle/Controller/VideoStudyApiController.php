@@ -42,15 +42,14 @@ class VideoStudyApiController extends RestController {
 			$videostudies = $this->getDoctrine()->getRepository('AppBundle:VideoStudy')->findForVideo($vid);
 		else 
 			$videostudies=$this->getDoctrine()->getRepository("AppBundle:VideoStudy")->findAll() ;		
-		$resp['data']=$videostudies;
-		$serializer = $this->get('serializer');
-		//$json =$serializer->serialize($resp);
-		return $this->json($resp);
+		$resp['data']=$videostudies;		
+		$bu=$this->get('app.api.video_bu');
+		return new JsonResponse($bu->getSerializedJson($resp),RESPONSE::HTTP_OK,[],true);		
 	}
 	
 	protected function POST_PAG(Request $request,$Id=null) {
 		$bu = $this->get('app.api.video_bu');		
-		$videostudy=$bu->setVideoStudy($this->getDoctrine()->getRepository('AppBundle:VideoStudy'),$this->getDoctrine()->getRepository("AppBundle:Study"),$this->getContentJson($request));
+		$videostudy=$bu->setVideoStudy($this->getDoctrine()->getRepository('AppBundle:VideoStudy'),$this->getDoctrine()->getRepository("AppBundle:Study"),$this->getDoctrine()->getRepository("AppBundle:Video"),$this->getContentJson($request));
 		if (!(is_numeric($videostudy->getVideo()->getId()) && ($videostudy->getVideo()->getId() >0))) {
 			$t['exception']='No video id  set ';
 			return JsonResponse::create($t,RESPONSE::HTTP_UNPROCESSABLE_ENTITY);
@@ -58,12 +57,14 @@ class VideoStudyApiController extends RestController {
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($videostudy);
 		$em->flush();		
-		$id=$videostudy->getId();
-		return $this->json($videostudy);
+		$id=$videostudy->getId();		
+		$bu=$this->get('app.api.video_bu');
+		return new JsonResponse($bu->getSerializedJson($videostudy),RESPONSE::HTTP_OK,[],true);
+		
 	}	
 	protected function PUT_PAG(Request $request,$Id=null) {		
 		$bu = $this->get('app.api.video_bu');
-		$videostudy=$bu->setVideoStudy($this->getDoctrine()->getRepository('AppBundle:VideoStudy'),$this->getDoctrine()->getRepository("AppBundle:Study"),$this->getContentJson($request));
+		$videostudy=$bu->setVideoStudy($this->getDoctrine()->getRepository('AppBundle:VideoStudy'),$this->getDoctrine()->getRepository("AppBundle:Study"),$this->getDoctrine()->getRepository("AppBundle:Video"),$this->getContentJson($request));
 		if (!(is_numeric($videostudy->getVideo()->getId()) && ($videostudy->getVideo()->getId() >0))) {
 			$t['exception']='No videoid and/or filename set ';
 			return JsonResponse::create($t,RESPONSE::HTTP_BAD_REQUEST);
