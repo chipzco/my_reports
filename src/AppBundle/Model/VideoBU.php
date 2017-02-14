@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Video;
 use AppBundle\Entity\Study;
 use AppBundle\Entity\Language;
+use AppBundle\Entity\VideoStudy;
 use \Doctrine\Common\Collections;
 
 class VideoBU {
@@ -90,9 +91,16 @@ class VideoBU {
 			if (array_key_exists('study', $video_data) && array_key_exists('id', $video_data['study']) && $video_data['study']['id'] >0 ) {
 				$id=$video_data['study']['id'];
 				$study=$studyRep->find($id);
-				if ($study) {
-					$videostudy->setStudy($study);	
-				}				
+				if (!$study) 
+					$study=new Study();
+				$videostudy->setStudy($study);								
+			}
+			if (array_key_exists('video', $video_data) && array_key_exists('id', $video_data['video']) && $video_data['video']['id'] >0 ) {
+				$id=$video_data['video']['id'];
+				$video=$videoRep->find($id);
+				if (!$video) 
+					$video=new Video();
+				$videostudy->setVideo($video);				
 			}
 		}
 		return $videostudy;
