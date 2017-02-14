@@ -10,4 +10,15 @@ namespace AppBundle\Repository;
  */
 class VideoStudyRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findForVideo() {
+		$query=$this->getEntityManager()->createQuery('Select vs, s from AppBundle:VideoStudy vs JOIN vs.study s order by s.protocol');
+		try {
+			return $query->getResult();
+		}
+		catch(\Doctrine\ORM\NoResultException $e) {
+			return null;
+		}
+	}
+	
+	
 }
