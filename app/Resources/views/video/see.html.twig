@@ -5,17 +5,23 @@
   <div>video: {{ video.videoid }}</div>
   
   <div>Transcripts: 
-  
+  		<br/>
   	{%  for t in video.transcripts %}
       {{t.lname}}  <i>{{t.id}}</i>
     {%  endfor  %}
   
   
-  
+  <p> Filtered: <br/>
   {%  for t in filt %}
   	{{ t.lname }}  
   {%  endfor %}
-  
+  </p>
+  <p>
+  filtered ids: <br/>
+  {%  for fid in filtids %}
+  	{{ fid }}  
+  {%  endfor %}
+  </p>
   </div>
   
 {% endblock %}

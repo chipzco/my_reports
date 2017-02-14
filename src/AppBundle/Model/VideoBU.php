@@ -56,7 +56,7 @@ class VideoBU {
 					$filtered_input=array_filter($video_data['transcripts'],(function($val) use ($filtids) {
 						if (array_search($val['id'], $filtids)===false)
 							return true;
-							return false;
+						return false;
 					}));
 					if (count($filtered_input) >0) {
 						foreach ($filtered_input as $inputT) {
@@ -115,11 +115,15 @@ class VideoBU {
 		return $filtered;
 	}	
 	
-	public function map_give_ids(\Doctrine\Common\Collections\ArrayCollection $coll) {		
+	public function map_give_ids(\Doctrine\Common\Collections\ArrayCollection $coll) {
+		return $coll->map(function($e) { return $e->getId(); } )->getValues();
+		/*
 		$ids=[];
 		foreach ($coll as $elem) {
 			$ids[]=$elem->getId();
-		}
+		}		
 		return $ids;
+		*/
+		
 	}	
 }

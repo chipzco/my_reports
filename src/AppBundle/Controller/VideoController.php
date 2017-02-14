@@ -1,5 +1,6 @@
 <?php
 namespace AppBundle\Controller;
+use AppBundle\Model\VideoBU;
 use AppBundle\Entity\Video;
 use AppBundle\Form\VideoFrm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -69,9 +70,11 @@ class VideoController extends Controller {
 		if (!$video) {
 			throw $this->createNotFoundException('No video found for id '.$videoId);
 		}
-		$ids=[149];
-		$filt=$video->filterTranscripts($ids);
-		return $this->render('video/see.html.twig', array('video'=>$video,'filt'=>$filt));
+		$ids=[137,148,181,174];  //use video id=18
+		$bu=new VideoBU();
+		$filt=$bu->filterTranscripts($ids,$video);
+		$filtids=$bu->map_give_ids($filt);
+		return $this->render('video/see.html.twig', array('video'=>$video,'filt'=>$filt,'filtids'=>$filtids));
 	}
 	
 	
