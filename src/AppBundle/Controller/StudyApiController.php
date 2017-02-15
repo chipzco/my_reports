@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Chme\RestBundle\Controller\RestController;
 use AppBundle\Entity\Study;
+use AppBundle\Model\EntityParseError;
 
 class StudyApiController extends RestController {
 	/**
@@ -29,8 +30,10 @@ class StudyApiController extends RestController {
 		$t['Id']=$Id;
 		$study = $this->getDoctrine()->getRepository('AppBundle:Study')->find($Id);
 		if (!$study) {
-			$t['exception']='No study found for id '.$Id;
-			return JsonResponse::create($t,RESPONSE::HTTP_NOT_FOUND);
+			$errObj=new EntityParseError();
+			$errObj->setError('No study found for id '.$Id);
+			$errObj->setObjectInstance($t);
+			return JsonResponse::create($errObj->serializeSendBack(),RESPONSE::HTTP_NOT_FOUND);
 		}
 		$study->convDates();
 		$t['data']=$study;
@@ -40,23 +43,18 @@ class StudyApiController extends RestController {
 	protected function LIST_PAG(Request $request) {		
 		$studys=$this->getDoctrine()->getRepository("AppBundle:Study")->findAll();
 		foreach ($studys as $s) {
-			$s->convDates();
-			//echo $s['StartDate'];	
+			$s->convDates();			
 		}
 		$resp['data']=$studys;
-		//$serializer = $this->get('serializer');
-		//$json =$serializer->serialize($resp);
 		$bu=$this->get('app.api.video_bu');
 		return new JsonResponse($bu->getSerializedJson($resp),RESPONSE::HTTP_OK,[],true);		
 	}
 	
 	protected function POST_PAG(Request $request,$Id=null) {		
-		$study=$this->setstudy($this->getContentJson($request));
-		if (!(strlen($study->getProtocol()) > 0 )) {
-			$t['exception']='No protocol set ';
-			return JsonResponse::create($t,RESPONSE::HTTP_UNPROCESSABLE_ENTITY);
-		}
-		
+		$errObj=$this->setstudy($this->getContentJson($request));		
+		if (!$errObj->isValid()) 
+			return JsonResponse::create($errObj->serializeSendBack(),RESPONSE::HTTP_UNPROCESSABLE_ENTITY);
+		$study=$errObj->getObjectInstance();		
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($study);
 		$em->flush();
@@ -66,11 +64,10 @@ class StudyApiController extends RestController {
 	
 	
 	protected function PUT_PAG(Request $request,$Id=null) {		
-		$study=$this->setstudy($this->getContentJson($request));
-		if (!(strlen($study->getProtocol()) > 0 )) {
-			$t['exception']='No studyid and/or filename set ';
-			return JsonResponse::create($t,RESPONSE::HTTP_BAD_REQUEST);
-		}
+		$errObj=$this->setstudy($this->getContentJson($request));	
+		if (!$errObj->isValid())		
+			return JsonResponse::create($errObj->serializeSendBack(),RESPONSE::HTTP_BAD_REQUEST);	
+		$study=$errObj->getObjectInstance();
 		$em = $this->getDoctrine()->getManager();
 		$em->flush();		
 		$study->convDates();
@@ -78,41 +75,17 @@ class StudyApiController extends RestController {
 	}
 	
 	protected function setstudy($study_data) {
-		$study=new study();
+		$errObj=new EntityParseError();		
 		if (is_array($study_data)) {
-			if (array_key_exists('id', $study_data) && $study_data['id']>0) {
-				$id=$study_data['id'];
-				$study = $this->getDoctrine()->getRepository('AppBundle:Study')->find($id);
-				if (!$study) {
-					return null;				
-				}
-			}	
-			if (array_key_exists('protocol', $study_data))
-				$study->setProtocol($study_data['protocol']);
-			if (array_key_exists('cRO', $study_data))
-				$study->setCRO($study_data['cRO']);
-			if (array_key_exists('startDate', $study_data)) {
-				if ($this->checkDate($study_data['startDate'])!=1)
-					$study->setStartDate(null);
-				else {
-					$dateval=new \DateTime($study_data['startDate']);					
-					$study->setStartDate($dateval);
-				}
-			}
-			if (array_key_exists('dueDate', $study_data)) {
-				if ($this->checkDate($study_data['dueDate'])!=1)
-					$study->setDueDate(null);
-				else {
-					$dateval=new \DateTime($study_data['dueDate']);
-					$study->setDueDate($dateval);
-				}				
-			}
+			$bu = $this->get('app.api.video_bu');
+			$study=$bu->setStudy($this->getDoctrine()->getRepository("AppBundle:Study"),$study_data);
+			$errObj->setObjectInstance($study);
+			$bu->validateStudy($errObj);			
 		}
-		return $study;
-	}
-	protected function checkDate($datevar) {
-		$regExp="/^(19|20)\d\d[- \/\.](0[1-9]|1[012])[- \/\.](0[1-9]|[12][0-9]|3[01])$/";
-		return preg_match($regExp,$datevar);		
+		else {
+			$errObj->setError("no data array passed");
+		}
+		return $errObj;
 	}
 	
 	
@@ -125,8 +98,6 @@ class StudyApiController extends RestController {
 		}
 		$em->remove($study);
 		$em->flush();		
-		//return $this->json($t);
-		//$resp=new Response('',RESPONSE::HTTP_OK);
 		return $this->json($study);
 	}
 	

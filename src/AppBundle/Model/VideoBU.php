@@ -1,17 +1,14 @@
 <?php
 namespace AppBundle\Model;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-
-use AppBundle\Entity\Video;
-use AppBundle\Entity\Study;
-use AppBundle\Entity\Language;
-use AppBundle\Entity\VideoStudy;
+use Symfony\Component\Serializer\Serializer;
 use \Doctrine\Common\Collections;
+use AppBundle\Model\EntityParseError;
+use AppBundle\Entity\Language;
+use AppBundle\Entity\Study;
+use AppBundle\Entity\Video;
+use AppBundle\Entity\VideoStudy;
 
 class VideoBU {
 	
@@ -84,6 +81,18 @@ class VideoBU {
 		}
 		return $video;
 	}
+	public function validateVideo($video) {
+		$errObj=new EntityParseError();
+		if ($video && $video instanceof Video) {
+			if (!(strlen($video->getFilename()) > 0 && is_numeric($video->getVideoid()))) {
+				$errObj->setError("No videoid and/or filename set");		
+			}
+		}
+		else {
+			$errObj->setError("Cannot Get Object");		
+		}
+		return $errObj;
+	}
 	
 	
 	public function setVideoStudy($videostudyRep,$studyRep,$videoRep,$video_data) {
@@ -117,6 +126,19 @@ class VideoBU {
 		}
 		return $videostudy;
 	}
+	public function validateVideoStudy($videostudy) {
+		$errObj=new EntityParseError();
+		if ($videostudy && $videostudy instanceof VideoStudy) {
+			if (!(is_numeric($videostudy->getVideo()->getId()) && ($videostudy->getVideo()) && ($videostudy->getVideo() instanceof Video) &&  ($videostudy->getVideo()->getId() >0))) {
+				$errObj->setError('No video id  set ');
+			}
+		}
+		else {
+			$errObj->setError('No videostudy');
+		}
+		return $errObj;
+	}
+	
 	public function filterTranscripts(array $ids,$video) {
 		$transcripts=$video->getTranscripts();
 		$filtered=$transcripts->filter(function($val) use ($ids) {
@@ -137,5 +159,53 @@ class VideoBU {
 		return $ids;
 		*/
 		
-	}	
+	}
+	public function setStudy($studyRep,$study_data) {
+		$study=new Study();
+		if (array_key_exists('id', $study_data) && $study_data['id']>0) {
+			$id=$study_data['id'];
+			$study = $studyRep->find($id);
+			if (!$study) {
+				return null;
+			}
+		}
+		if (array_key_exists('protocol', $study_data))
+			$study->setProtocol($study_data['protocol']);
+		if (array_key_exists('cRO', $study_data))
+			$study->setCRO($study_data['cRO']);
+		if (array_key_exists('startDate', $study_data)) {
+			if ($this->checkDate($study_data['startDate'])!=1)
+				$study->setStartDate(null);
+			else {
+				$dateval=new \DateTime($study_data['startDate']);
+				$study->setStartDate($dateval);
+			}
+		}
+		if (array_key_exists('dueDate', $study_data)) {
+			if ($this->checkDate($study_data['dueDate'])!=1)
+				$study->setDueDate(null);
+			else {
+				$dateval=new \DateTime($study_data['dueDate']);
+				$study->setDueDate($dateval);
+			}
+		}
+		return $study;
+	}
+	public function validateStudy(EntityParseError $errorObj) {
+		$study=$errorObj->getObjectInstance(); //get my object from here.
+		if (!($study && $study instanceof Study && (strlen($study->getProtocol()) > 0 ))) {			
+			if ($study)
+				$errorObj->setError('No protocol set ');
+			else
+				$errorObj->setError('No Study Found');
+		}
+		return $errorObj->isValid();
+	}
+	
+	protected function checkDate($datevar) {
+		$regExp="/^(19|20)\d\d[- \/\.](0[1-9]|1[012])[- \/\.](0[1-9]|[12][0-9]|3[01])$/";
+		return preg_match($regExp,$datevar);
+	}
+	
+	
 }
