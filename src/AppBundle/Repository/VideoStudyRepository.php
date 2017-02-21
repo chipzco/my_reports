@@ -11,7 +11,7 @@ namespace AppBundle\Repository;
 class VideoStudyRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function findForVideo($vid) {
-		$query=$this->getEntityManager()->createQuery('Select vs, s from AppBundle:VideoStudy vs JOIN vs.study s JOIN vs.video v where v.id=:vid order by s.protocol');
+		$query=$this->getEntityManager()->createQuery('Select vs, s, v from AppBundle:VideoStudy vs JOIN vs.study s JOIN vs.video v where v.id=:vid order by s.protocol');
 		$query->setParameter('vid', $vid);
 		try {
 			return $query->getResult();
