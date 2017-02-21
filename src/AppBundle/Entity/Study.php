@@ -180,8 +180,8 @@ class Study
      */
     public function addVideoStudy(\AppBundle\Entity\VideoStudy $videoStudy)
     {
-        $this->video_studies[] = $videoStudy;
-
+        
+        $this->video_studies->add($videoStudy);
         return $this;
     }
 
@@ -194,6 +194,10 @@ class Study
     {
         $this->video_studies->removeElement($videoStudy);
     }
+    
+    public function clearVideoStudies() {
+    	$this->video_studies->clear();
+    }    
 
     /**
      * Get videoStudies

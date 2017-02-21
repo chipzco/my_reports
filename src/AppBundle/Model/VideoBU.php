@@ -139,6 +139,16 @@ class VideoBU {
 		return $errObj;
 	}
 	
+	public function cleanVideoStudies($videostudies) {
+		foreach ($videostudies as $vs) {
+			$vs->getVideo()->clearTranscripts();
+			$vs->getVideo()->clearVideoStudies();
+			$vs->getVideo()->setLanguage(null);
+			$vs->getStudy()->clearVideoStudies();
+		}		
+	}
+	
+	
 	public function filterTranscripts(array $ids,$video) {
 		$transcripts=$video->getTranscripts();
 		$filtered=$transcripts->filter(function($val) use ($ids) {

@@ -39,7 +39,9 @@ class VideoStudyApiController extends RestAbsController {
 		if ($vid>0)
 			$videostudies = $this->getDoctrine()->getRepository('AppBundle:VideoStudy')->findForVideo($vid);
 		else 
-			$videostudies=$this->getDoctrine()->getRepository("AppBundle:VideoStudy")->findAll() ;		
+			$videostudies=$this->getDoctrine()->getRepository("AppBundle:VideoStudy")->findAll() ;
+		$bu=$this->get('app.api.video_bu');
+		$bu->cleanVideoStudies($videostudies);
 		$resp['data']=$videostudies;
 		return $this->returnSerializedJsonData(RESPONSE::HTTP_OK, $resp);				
 	}
