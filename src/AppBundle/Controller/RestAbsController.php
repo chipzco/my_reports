@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class RestAbsController extends RestController {
 	
-	protected function returnJsonError(int $r,string $s,bool $isJson=false,EntityParseError $e=null) {		
+	protected function returnJsonError($r,$s,$isJson=false,$e) {		
 		if (!$e) {
 			$e=new EntityParseError();
 			$e->setError($s);
@@ -19,7 +19,7 @@ abstract class RestAbsController extends RestController {
 		}
 		return new JsonResponse($e->serializeSendBack(),$r,[],$isJson);
 	}
-	protected function returnSerializedJsonData(int $statusCode,$object) {
+	protected function returnSerializedJsonData($statusCode,$object) {
 		$bu=$this->get('app.api.video_bu');
 		return new JsonResponse($bu->getSerializedJson($object),$statusCode,[],true);
 	}
