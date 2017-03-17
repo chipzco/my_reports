@@ -9,6 +9,9 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
    app.api.video_bu:
       class: AppBundle\Model\VideoBU
+   a0_user_provider:
+      class: AppBundle\Security\A0UserProvider
+      arguments: ["@jwt_auth.auth0_service"]   
       
  
   

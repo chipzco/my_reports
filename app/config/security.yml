@@ -6,15 +6,26 @@ security:
     providers:
         in_memory:
             memory: ~
+            
+        a0:
+            id:
+              a0_user_provider
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        main:
+        secured_area:
+            pattern: ^/api
+            stateless: true
+            simple_preauth:
+                authenticator: jwt_auth.jwt_authenticator       
+        main:                            
             anonymous: ~
+            
+          
+            
             # activate different ways to authenticate
 
             # http_basic: ~
@@ -22,3 +33,9 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            
+    access_control:
+      - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/api, roles: ROLE_OAUTH_USER } 
+   
+            

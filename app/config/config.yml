@@ -73,3 +73,10 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+    
+jwt_auth:
+  client_id:     2z1Xd3I3gIIoy6DCTvog0e4hz7VNBo71
+  client_secret: YGOtfdbXZ-yQAc6ZmEObsi45IhAP09_nPBO789FmFqnIQ6p8RQdVvwADDPZip64E
+  secret_base64_encoded: false
+  domain: compwebserv.auth0.com  
+      
