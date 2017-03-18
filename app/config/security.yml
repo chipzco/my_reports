@@ -19,6 +19,7 @@ security:
         secured_area:
             pattern: ^/api
             stateless: true
+            provider: a0
             simple_preauth:
                 authenticator: jwt_auth.jwt_authenticator       
         main:                            
